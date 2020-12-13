@@ -68,3 +68,38 @@ export const updateProfile = (fullName, newAvatar) => {
     .put(`${process.env.REACT_APP_BACKEND_URL}/users/profile`, formData, requestOptions)
     .then((response) => response.data);
 }
+
+// export const updateProfile = (fullName, newAvatar) => {
+//   const formData = new FormData();
+//   formData.append("fullName", fullName);
+//   formData.append("avatar", newAvatar[0]);
+//
+//   const requestOptions = {
+//     headers: {
+//       "Content-Type": "multipart/form-data",
+//       Authorization: getBearerToken(),
+//     },
+//   };
+//   return httpService
+//     .put(`${process.env.REACT_APP_BACKEND_URL}/users/profile`, formData, requestOptions)
+//     .then((response) => response.data);
+// }
+
+export function createUser(email, cpf, fullName, password, avatar) {
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("cpf", cpf);
+  formData.append("fullName", fullName);
+  formData.append("password", password);
+  formData.append("avatar", avatar[0]);
+
+  const requestOptions = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }
+  return httpService
+    .post(`${process.env.REACT_APP_BACKEND_URL}/users`, formData, requestOptions)
+    .then((response) => response.data);
+}
+

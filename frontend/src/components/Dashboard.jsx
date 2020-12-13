@@ -21,6 +21,7 @@ export default function Dashboard() {
         .then(result => {
           console.log(result);
           if (result.success) {
+            console.log(result.data);
             setUser(result.data);
             setLoading(false);
           } else {
