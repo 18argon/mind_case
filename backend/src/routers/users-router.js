@@ -32,8 +32,10 @@ router.post('/', upload.single('avatar'), async (req, res) => {
       name: imageFile.originalname,
       path: imagePath,
     };
+
     const newUser = await userService
-      .insert(fullName, email, cpf, hash, image, AccessLevel.COMMON_USER);
+      .create(fullName, email, cpf, hash, image, AccessLevel.COMMON_USER);
+    await userService.save(newUser);
 
     return res.status(201)
       .send({
@@ -217,7 +219,7 @@ router.put('/:id', upload.single('avatar'), async (req, res) => {
       user.image.path = `images/${req.file.path.split(/[\\/]/)[1]}`;
     }
 
-    await userService.update(user);
+    await userService.save(user);
 
     return res.status(200).send({
       success: true,
@@ -251,7 +253,7 @@ router.put('/:id/activated', async (req, res) => {
       ? AccessLevel.DEACTIVATED_USER
       : AccessLevel.COMMON_USER;
 
-    await userService.update(user);
+    await userService.save(user);
     const message = user.accessLevel === AccessLevel.COMMON_USER ? 'activated' : 'deactivated';
     return res.status(200).send({
       success: true,

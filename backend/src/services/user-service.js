@@ -21,20 +21,17 @@ export const getAll = async () => {
   }
 };
 
-export const insert = async (fullName, email, cpf, passwordHash, image, accessLevel) => {
-  const newUser = new User({
-    fullName,
-    cpf,
-    email,
-    passwordHash,
-    image: {
-      name: image.name,
-      path: image.path,
-    },
-    accessLevel,
-  });
-  return newUser.save();
-};
+export const create = async (fullName, email, cpf, passwordHash, image, accessLevel) => new User({
+  fullName,
+  cpf,
+  email,
+  passwordHash,
+  image: {
+    name: image.name,
+    path: image.path,
+  },
+  accessLevel,
+});
 
 export const getBy = async ({ username, email, cpf }) => {
   const query = {
@@ -57,4 +54,4 @@ export const getById = async (id) => {
   return User.findOne(query, projection);
 };
 
-export const update = async (user) => user.save();
+export const save = async (user) => user.save();
