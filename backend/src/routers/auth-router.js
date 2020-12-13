@@ -67,7 +67,7 @@ router.post('/login', async (req, res) => {
 router.post('/revoke', (req, res) => {
   res.clearCookie('jid', {
     httpOnly: true,
-    path: '/refresh',
+    path: '/auth/refresh',
   });
 
   res.status(200).send({
