@@ -31,6 +31,9 @@ export default function LogIn() {
   };
 
   return (
-    <LogInForm onSubmit={onSubmit}/>
+    <>
+      <h1>Log In</h1>
+      <LogInForm onSubmit={onSubmit}/>
+    </>
   );
 }

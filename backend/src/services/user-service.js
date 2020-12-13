@@ -10,6 +10,8 @@ export const getAll = async () => {
     imageName: 1,
     imagePath: 1,
     accessLevel: 1,
+    id: '$_id',
+    _id: 0,
   };
 
   try {
@@ -54,3 +56,5 @@ export const getById = async (id) => {
 
   return User.findOne(query, projection);
 };
+
+export const update = async (user) => user.save();

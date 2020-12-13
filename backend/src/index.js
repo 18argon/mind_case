@@ -12,14 +12,18 @@ const MONGODB_URI = process.env.MONGODB_URI || '';
 const PORT = process.env.PORT || 3000;
 
 /* Inicializando Mongoose */
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-});
-const db = mongoose.connection;
+mongoose
+  .connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .catch((err) => {
+    // eslint-disable-next-line no-console
+    console.log(err);
+  });
 
-db.once('open', () => {
+mongoose.connection.once('open', () => {
   // eslint-disable-next-line no-console
   console.log('Connected to MongoDB database.');
 });
@@ -27,8 +31,10 @@ db.once('open', () => {
 /* Inicializando express */
 const app = express();
 
+app.use('/images', express.static('uploads'));
+
 const corsOptions = {
-  origin: 'http://localhost:3001',
+  origin: 'http://localhost:8080',
   credentials: true,
 };
 // app.use(cors(corsOptions));

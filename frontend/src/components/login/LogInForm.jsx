@@ -28,7 +28,7 @@ export default function LogInForm({ onSubmit }) {
       </div>
 
       <div>
-        <input type="submit"/>
+        <button>Entrar</button>
       </div>
     </form>
   );
