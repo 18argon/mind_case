@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import ToggleButton from './ToggleButton';
 import { userService } from "../../services";
 
@@ -28,8 +28,10 @@ export default function UsersTableRow({ id, fullName, email, cpf, accessLevel })
       <td>{email}</td>
       <td>{cpf}</td>
       <td>
-        <button onClick={handleEditClick}>Editar</button>
-        <ToggleButton activated={activated} handleClick={handleToggle}/>
+        <div className="buttons">
+          <Link className="button is-small" to={`/users/${id}/edit`}>Editar</Link>
+          <ToggleButton activated={activated} handleClick={handleToggle}/>
+        </div>
       </td>
     </tr>
   )

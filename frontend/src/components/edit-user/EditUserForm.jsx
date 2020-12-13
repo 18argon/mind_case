@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import React from 'react';
 
-export default function EditUserForm({onSubmit, email, cpf, fullName, imagePath}) {
-  const { register, handleSubmit, errors } = useForm({
+export default function EditUserForm({ onSubmit, email, cpf, fullName, imagePath }) {
+  const { register, handleSubmit, watch, errors } = useForm({
     defaultValues: {
       email,
       cpf,
@@ -12,26 +12,41 @@ export default function EditUserForm({onSubmit, email, cpf, fullName, imagePath}
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
+      <div className="field">
         <p>{errors.email?.message}</p>
-        <label htmlFor="email">E-mail: </label>
-        <input type="text" id="email" name="email" ref={register}/>
+        <label className="label" htmlFor="email">E-mail: </label>
+        <input type="text" className="input" id="email" name="email" ref={register}/>
       </div>
 
-      <div>
+      <div className="field">
         <p>{errors.cpf?.message}</p>
-        <label htmlFor="cpf">CPF: </label>
-        <input type="text" id="cpf" name="cpf" ref={register}/>
+        <label className="label" htmlFor="cpf">CPF: </label>
+        <input type="text" className="input" id="cpf" name="cpf" ref={register}/>
       </div>
 
-      <div>
+      <div className="field">
         <p>{errors.fullName?.message}</p>
-        <label htmlFor="fullName">Nome completo: </label>
-        <input type="text" id="fullName" name="fullName" ref={register}/>
+        <label className="label" htmlFor="fullName">Nome completo: </label>
+        <input type="text" className="input" id="fullName" name="fullName" ref={register}/>
       </div>
-      <div>
-        <label htmlFor="newAvatar">Imagem de Perfil: </label>
-        <input type="file" id="newAvatar" name="newAvatar" ref={register}/>
+
+      <div className="field">
+        <label className="label">Imagem de Perfil</label>
+        <div className="file has-name is-fullwidth">
+          <label className="file-label">
+            <input type="file" className="file-input" id="newAvatar" name="newAvatar" ref={register}/>
+
+            <span className="file-cta">
+              <span className="file-icon">
+                <i className="fas fa-upload"/>
+              </span>
+              <span className="file-label">Choose a file…</span>
+            </span>
+            <span className="file-name">
+              {watch("newAvatar")?.length && watch('newAvatar')[0].name}
+            </span>
+          </label>
+        </div>
       </div>
 
       <div className="field">
@@ -42,8 +57,8 @@ export default function EditUserForm({onSubmit, email, cpf, fullName, imagePath}
         </figure>
       </div>
 
-      <div>
-        <button>Salvar</button>
+      <div className="field">
+        <button className="button is-success field-right">Salvar</button>
       </div>
     </form>
   );

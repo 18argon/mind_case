@@ -19,9 +19,7 @@ export default function Dashboard() {
 
       userService.fetchProfile()
         .then(result => {
-          console.log(result);
           if (result.success) {
-            console.log(result.data);
             setUser(result.data);
             setLoading(false);
           } else {
@@ -45,10 +43,9 @@ export default function Dashboard() {
 
   return (
     <>
-      <button onClick={handleLogout}>Sair</button>
       {loading && <p>Loading...</p>}
-      {!loading && user.accessLevel === AccessLevel.ADMIN && <Users/>}
-      {!loading && user.accessLevel === AccessLevel.COMMON_USER && <Profile user={user}/>}
+      {!loading && user.accessLevel === AccessLevel.ADMIN && <Users {...user} />}
+      {!loading && user.accessLevel === AccessLevel.COMMON_USER && <Profile {...user} />}
     </>
   );
 }

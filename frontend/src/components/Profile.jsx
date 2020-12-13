@@ -1,6 +1,8 @@
 import { useHistory } from 'react-router-dom'
+import Header from './Header';
+import UsersTable from './users/UsersTable';
 
-export default function Profile({ user }) {
+export default function Profile({ fullName, cpf, email, image }) {
   const history = useHistory();
 
   const handleEditClick = (e) => {
@@ -9,16 +11,31 @@ export default function Profile({ user }) {
   }
 
   return (
-    <div>
-      <h1>Perfil</h1>
-      <button onClick={handleEditClick}>Editar</button>
-      <figure className="">
-        <img style={{ width: "128px" }} src={`${process.env.REACT_APP_BACKEND_URL}/${user.image.path}`}
-             alt="Imagem de perfil atual"/>
-      </figure>
-      <p>Nome completo: {user.fullName}</p>
-      <p>CPF: {user.cpf}</p>
-      <p>E-mail: {user.email}</p>
-    </div>
+    <>
+      <Header fullName={fullName} imageSrc={`${process.env.REACT_APP_BACKEND_URL}/${image.path}`}/>
+      <div className="container">
+        <div className="columns is-centered">
+          <div className="column is-four-fifths">
+            <div className="box">
+              <div className="columns">
+                <div className="column is-four-fifths">
+                  <h1 className="is-size-3">Perfil</h1>
+                </div>
+                <div className="column ">
+                  <button className="button is-success field-right" onClick={handleEditClick}>Editar</button>
+                </div>
+              </div>
+              <figure className="">
+                <img style={{ width: "128px" }} src={`${process.env.REACT_APP_BACKEND_URL}/${image.path}`}
+                     alt="Imagem de perfil atual"/>
+              </figure>
+              <p><span className="has-text-weight-bold"> Nome completo: </span>{fullName}</p>
+              <p><span className="has-text-weight-bold"> CPF: </span>{cpf}</p>
+              <p><span className="has-text-weight-bold"> E-mail: </span>{email}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }

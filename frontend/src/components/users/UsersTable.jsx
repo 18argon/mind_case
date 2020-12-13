@@ -3,7 +3,7 @@ import UsersTableRow from './UsersTableRow';
 export default function UsersTable({ users }) {
 
   return (
-    <table>
+    <table className="table is-hoverable is-fullwidth">
       <thead>
       <tr>
         <th>Nome completo</th>
@@ -14,7 +14,6 @@ export default function UsersTable({ users }) {
       </thead>
       <tbody>
       {users.map((user) => {
-        console.log(user);
         return <UsersTableRow key={user.id} id={user.id} {...user} />;
       })}
       </tbody>

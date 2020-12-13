@@ -8,9 +8,8 @@ export default function SignUp() {
   const [ error, setError ] = useState(undefined);
 
   const onSubmit = (data) => {
-    const { email, cpf, fullName, password, newAvatar } = data;
-    console.log(data);
-    userService.createUser(email, cpf, fullName, password, newAvatar)
+    const { email, cpf, fullName, password, avatar } = data;
+    userService.createUser(email, cpf, fullName, password, avatar)
       .then((result) => {
         if (result.success) {
           history.push("/");
@@ -21,11 +20,19 @@ export default function SignUp() {
   }
 
   return (
-    <div>
-      <h1>Criar Usuário</h1>
-      <SignUpForm onSubmit={onSubmit}/>
-      <p>ou</p>
-      <Link to='/login'>Log In</Link>
-    </div>
+    <section className="hero is-primary is-fullheight">
+      <div className="hero-body">
+        <div className="container">
+          <div className="columns is-centered">
+            <div className="column is-5-tablet is-4-desktop">
+              <p className="title black has-text-centered">Mind Case</p>
+              <div className="box">
+                <SignUpForm onSubmit={onSubmit}/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };

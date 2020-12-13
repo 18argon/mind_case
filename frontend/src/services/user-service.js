@@ -31,7 +31,7 @@ export const fetchUser = (id) => {
     .then(request => request.data);
 };
 
-export const fetchProfile = (id) => {
+export const fetchProfile = () => {
   return httpService
     .get(`${process.env.REACT_APP_BACKEND_URL}/users/profile`, getRequestOptions())
     .then(request => request.data);

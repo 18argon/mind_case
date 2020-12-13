@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import EditUserForm from './EditUserForm';
 import { getBearerToken } from '../../services/auth-service';
 import { userService } from "../../services";
+import Header from '../Header';
 
 export default function EditUserProfile() {
   const history = useHistory();
@@ -19,7 +20,6 @@ export default function EditUserProfile() {
 
       userService.fetchProfile()
         .then(result => {
-          console.log(result);
           if (result.success) {
             setUser(result.data);
           }
@@ -42,9 +42,18 @@ export default function EditUserProfile() {
 
 
   return (
-    <div>
-      <h1>Editar Perfil</h1>
-      {!loading && <EditUserForm onSubmit={onSubmit} {...user} imagePath={user.image.path}/>}
-    </div>
+    <>
+      <Header fullName={user ? user.fullName : ''}
+              imageSrc={user ? `${process.env.REACT_APP_BACKEND_URL}/${user.image.path}` : ''}/>
+      <div className="container">
+        {!loading && (
+          <div className="box">
+            <h2 className="is-size-3">Editar Perfil</h2>
+
+            <EditUserForm onSubmit={onSubmit} {...user} imagePath={user.image.path}/>
+          </div>
+        )}
+      </div>
+    </>
   );
 };

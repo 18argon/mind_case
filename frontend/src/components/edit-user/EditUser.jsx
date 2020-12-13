@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import EditUserForm from './EditUserForm';
 import { userService } from "../../services";
+import Header from '../Header';
 
 export default function EditUser() {
   const match = useRouteMatch();
@@ -15,7 +16,6 @@ export default function EditUser() {
 
       userService.fetchUser(id)
         .then(result => {
-          console.log(result);
           if (result.success) {
             setUser(result.data);
           }
@@ -36,9 +36,17 @@ export default function EditUser() {
       });
   }
   return (
-    <div>
-      <h1>Editar Usuário</h1>
-      {!loading && <EditUserForm onSubmit={onSubmit} {...user} imagePath={user.image.path}/>}
-    </div>
+    <>
+      <Header fullName={user ? user.fullName : ''}
+              imageSrc={user ? `${process.env.REACT_APP_BACKEND_URL}/${user.image.path}` : ''}/>
+      <div className="container">
+        {!loading && (
+          <div className="box">
+            <h1 className="is-size-3">Editar Usuário</h1>
+            <EditUserForm onSubmit={onSubmit} {...user} imagePath={user.image.path}/>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
