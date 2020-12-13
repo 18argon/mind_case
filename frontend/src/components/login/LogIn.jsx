@@ -11,11 +11,6 @@ export default function LogIn() {
       .then(_ => history.push('/'))
   };
 
-  const onCreateClick = (e) => {
-    e.preventDefault();
-    history.push('/signup')
-  }
-
   return (
     <>
       <h1>Log In</h1>
