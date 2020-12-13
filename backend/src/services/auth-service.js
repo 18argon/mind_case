@@ -37,7 +37,7 @@ export const generateRefreshToken = (id) => jwt.sign({ id }, process.env.JWT_REF
  * @param {string} id ID do usuário
  */
 export const generateAccessToken = (id) => jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, {
-  expiresIn: '15m', // 15 min
+  expiresIn: '5s', // 15 min
 });
 
 /**

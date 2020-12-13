@@ -1,4 +1,5 @@
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import { authService, userService } from '../services/index.js';
 import { AccessLevel } from '../models/index.js';
 
@@ -43,7 +44,7 @@ router.post('/login', async (req, res) => {
     const expireDate = authService.getRefreshTokenExpireDate();
     res.cookie('jid', refreshToken, {
       httpOnly: true,
-      path: '/refresh',
+      path: '/auth/refresh',
       expires: expireDate,
     });
 
@@ -73,6 +74,52 @@ router.post('/revoke', (req, res) => {
     success: true,
     message: 'Logout com sucesso',
   });
+});
+
+/**
+ * Renova o refreshToken e o accessToken
+ */
+router.post('/refresh', async (req, res) => {
+  const token = req.cookies.jid;
+
+  if (!token) {
+    return res.status(401).send({
+      success: false,
+      message: 'Token não encontrado',
+    });
+  }
+
+  try {
+    const payload = authService.verifyRefreshToken(token);
+
+    const user = await userService.getById(payload.id);
+
+    if (!user) {
+      return res.status(401).send({
+        success: false,
+        message: 'Token inválido',
+      });
+    }
+
+    const accessToken = authService.generateAccessToken(user.id);
+
+    return res.status(200).send({
+      success: true,
+      accessToken,
+    });
+  } catch (err) {
+    if (err instanceof jwt.TokenExpiredError) {
+      return res.status(401).send({
+        success: false,
+        message: 'Token expirado',
+      });
+    }
+
+    return res.status(401).send({
+      success: false,
+      message: 'Token inválido',
+    });
+  }
 });
 
 export default router;

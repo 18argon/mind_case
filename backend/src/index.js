@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { authRouter, usersRouter } from './routers/index.js';
 
 /* Inicializando dotenv */
@@ -39,6 +40,8 @@ const corsOptions = {
 };
 // app.use(cors(corsOptions));
 app.use(cors(corsOptions));
+
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use('/auth', authRouter);

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import EditUserForm from './EditUserForm';
+import { getBearerToken } from '../../services/auth-service';
+import { userService } from "../../services";
 
 export default function EditUserProfile() {
   const history = useHistory();
@@ -12,13 +13,11 @@ export default function EditUserProfile() {
     const fetchUser = () => {
       const requestOptions = {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: getBearerToken(),
         },
       };
 
-      axios
-        .get(`${process.env.REACT_APP_BACKEND_URL}/users/profile`, requestOptions)
-        .then(request => request.data)
+      userService.fetchProfile()
         .then(result => {
           console.log(result);
           if (result.success) {
@@ -33,20 +32,7 @@ export default function EditUserProfile() {
   }, []);
 
   const onSubmit = ({ fullName, newAvatar }) => {
-    console.log(newAvatar);
-    const formData = new FormData();
-    formData.append("fullName", fullName);
-    formData.append("avatar", newAvatar[0]);
-
-    const requestOptions = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
-    };
-    axios
-      .put(`${process.env.REACT_APP_BACKEND_URL}/users/profile`, formData, requestOptions)
-      .then((response) => response.data)
+    userService.updateProfile(fullName, newAvatar)
       .then((result) => {
         if (result.success) {
           history.push("/");

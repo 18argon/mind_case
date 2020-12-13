@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import UsersTable from './UsersTable';
+import { userService } from '../../services';
 
 export default function Users() {
   const [ loading, setLoading ] = useState(true);
@@ -9,14 +9,7 @@ export default function Users() {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const requestOptions = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-      };
-      axios
-        .get(`${process.env.REACT_APP_BACKEND_URL}/users`, requestOptions)
-        .then(request => request.data)
+      userService.fetchUsers()
         .then(result => {
           console.log(result);
           if (result.success) {

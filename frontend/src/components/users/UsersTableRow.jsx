@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import ToggleButton from './ToggleButton';
+import { userService } from "../../services";
 
 export default function UsersTableRow({ id, fullName, email, cpf, accessLevel }) {
   const history = useHistory();
@@ -9,20 +9,7 @@ export default function UsersTableRow({ id, fullName, email, cpf, accessLevel })
 
   const handleToggle = (e) => {
     e.preventDefault();
-
-    const requestOptions = {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
-    };
-
-    axios
-      .put(
-        `${process.env.REACT_APP_BACKEND_URL}/users/${id}/activated`,
-        {},
-        requestOptions,
-      )
-      .then(request => request.data)
+    userService.toggleUserAccessLevel(id)
       .then(result => {
         if (result.success) {
           setActivated(result.message === "activated")

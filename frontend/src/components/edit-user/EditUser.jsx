@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
-import axios from 'axios';
 import EditUserForm from './EditUserForm';
+import { userService } from "../../services";
 
 export default function EditUser() {
   const match = useRouteMatch();
@@ -12,15 +12,8 @@ export default function EditUser() {
   useEffect(() => {
     const fetchUser = () => {
       const id = match.params.id;
-      const requestOptions = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-      };
 
-      axios
-        .get(`${process.env.REACT_APP_BACKEND_URL}/users/${id}`, requestOptions)
-        .then(request => request.data)
+      userService.fetchUser(id)
         .then(result => {
           console.log(result);
           if (result.success) {
@@ -35,19 +28,7 @@ export default function EditUser() {
   }, [ match ]);
 
   const onSubmit = ({ fullName, newAvatar }) => {
-    const formData = new FormData();
-    formData.append("fullName", fullName);
-    formData.append("avatar", newAvatar[0]);
-
-    const requestOptions = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
-    };
-    axios
-      .put(`${process.env.REACT_APP_BACKEND_URL}/users/${user.id}`, formData, requestOptions)
-      .then((response) => response.data)
+    userService.updateUser(user.id, fullName, newAvatar)
       .then((result) => {
         if (result.success) {
           history.push("/");
@@ -57,7 +38,7 @@ export default function EditUser() {
   return (
     <div>
       <h1>Editar Usuário</h1>
-      {!loading && <EditUserForm onSubmit={onSubmit} {...user} imagePath={user.image.path} />}
+      {!loading && <EditUserForm onSubmit={onSubmit} {...user} imagePath={user.image.path}/>}
     </div>
   );
 };

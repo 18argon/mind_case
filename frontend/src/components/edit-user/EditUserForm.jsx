@@ -1,13 +1,5 @@
 import { useForm } from 'react-hook-form';
 import React from 'react';
-import * as yup from 'yup';
-
-const schema = yup.object().shape({
-  email: yup.string().email(),
-  cpf: yup.string(),
-  fullName: yup.string(),
-});
-
 
 export default function EditUserForm({onSubmit, email, cpf, fullName, imagePath}) {
   const { register, handleSubmit, errors } = useForm({
